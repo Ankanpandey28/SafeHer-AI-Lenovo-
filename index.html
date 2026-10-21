@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Character Encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Responsive Website -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Website Title -->
+    <title>SafeHer AI | Women's Safety Assistant</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#6c63ff">
+    <link rel="apple-touch-icon" href="images/hero.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+    <!-- Background Shapes -->
+
+<div class="shape shape1"></div>
+<div class="shape shape2"></div>
+<div class="shape shape3"></div>
+<!-- Navigation -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+            <span>SafeHer AI</span>
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="#home">Home</a></li>
+
+            <li><a href="#features">Features</a></li>
+
+            <li><a href="#workflow">How It Works</a></li>
+
+            <li><a href="#resources">Resources</a></li>
+
+        </ul>
+
+        <button class="nav-btn" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">
+
+            Dashboard
+
+        </button>
+        <button id="sosBtn" class="sos-btn">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+SOS
+
+</button>
+
+    </nav>
+
+</header>
+<!-- Hero Section -->
+<section id="home" class="hero">
+
+    <div class="hero-text">
+    <div class="badge">
+
+   Journey-aware • User-controlled • Mobile-first
+
+</div>
+<h1>
+Empowering Women
+
+<br>
+Through Intelligent
+
+<br>
+Safety Solutions
+
+</h1>
+<p>
+
+SafeHer AI is a journey-safety companion that uses device location
+and transparent rules to help users notice unusual journey patterns,
+contact trusted people, and reach emergency calling options.
+
+</p>
+<p id="assistantStatus">System Ready</p>
+        <div class="hero-buttons">
+            <button id="journeyBtn" class="primary-btn">
+
+<i class="fa-solid fa-route"></i>
+
+Start Safe Journey
+
+</button>
+
+    <button class="primary-btn" onclick="document.getElementById('checker').scrollIntoView({behavior:'smooth'})">
+
+    Try SafeHer AI
+
+</button>
+     <button class="secondary-btn" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+
+    Explore Features
+
+</button>
+        </div>
+
+    <p class="trust-text">
+
+    <i class="fa-solid fa-shield-halved"></i>
+
+    AI Driven • Smart Protection • Instant Guidance
+
+    </p>
+
+ </div>
+
+    <div class="hero-image">
+
+    <img src="images/hero.png" alt="SafeHer AI Illustration">
+    <section id="sosPanel" class="sos-panel hidden">
+
+<h1>
+
+🚨 SOS MODE ACTIVATED
+
+</h1>
+<hr style="width:80%;margin:30px 0;">
+
+<h2>👨‍👩‍👧 Trusted Contacts</h2>
+
+<div class="contact-form">
+
+</div>
+
+<p>
+
+Stay calm.
+
+SafeHer AI is assisting you.
+
+</p>
+<div id="sosChat" class="sos-chat">
+
+    <div class="sos-ai-message">
+
+        👋 SafeHer AI is ready to assist you.
+
+    </div>
+
+</div>
+
+<div class="sos-actions">
+    <div class="location-box">
+
+    <h3>📍 Current Location</h3>
+
+    <p id="locationStatus">
+        Waiting for location...
+    </p>
+    <p id="gpsStatus"></p>
+
+</div>
+
+<button id="emergencyBtn" onclick="callEmergency()">
+
+📞 Emergency
+
+</button>
+
+<button id="shareLocationBtn" onclick="shareLocation()">
+
+📍 Share Location
+
+</button>
+
+<button id="trustedContactBtn" onclick="sendEmergencySMS()">
+    📨 Send Emergency Alert
+</button>
+<button id="nativeSmsFallbackBtn" type="button">
+    Open SMS App (review and send)
+</button>
+
+<button id="trustedCallBtn" type="button">
+    📞 Call Trusted Contact
+</button>
+
+<div class="police-target-box">
+    <strong>👮 Nearby Police Station</strong>
+    <span id="policeStationName">Finding nearby station…</span>
+    <small id="policeStationPhone">Use 112 if a direct station number is unavailable.</small>
+    <button id="policeCallBtn" type="button">👮 Call Nearby Police (tap to call)</button>
+    <small>For safety and browser restrictions, SafeHer cannot silently place a phone call. In simulation mode, if map data has no station phone number, this opens a map search rather than calling 112.</small>
+</div>
+
+<div class="emergency-message-box">
+    <strong>Emergency message</strong>
+    <p id="sosWorkflowStatus">Preparing emergency response…</p>
+    <details><summary>View full message</summary><pre id="emergencyMessagePreview"></pre></details>
+</div>
+
+<button id="exitSOSBtn" onclick="stopSOS()">
+
+❌ Exit SOS
+
+</button>
+
+</div>
+
+</section>
+
+    <!-- Floating Card 1 -->
+    <div class="floating-card card1">
+
+        <i class="fa-solid fa-robot"></i>
+
+        <div>
+            <h4>Situation Screening</h4>
+            <p>Keyword indicators</p>
+        </div>
+
+    </div>
+
+    <!-- Floating Card 2 -->
+    <div class="floating-card card2">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+        <div>
+            <h4>Safety Guide</h4>
+            <p>On-demand guidance</p>
+        </div>
+
+    </div>
+    <div class="floating-card card3">
+
+    <i class="fa-solid fa-location-dot"></i>
+
+    <div>
+        <h4>Live Location</h4>
+        <p>Emergency Support</p>
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="dashboard" class="safety-dashboard section-shell">
+  <div class="section-kicker">LIVE SAFETY DASHBOARD</div>
+  <div class="dashboard-heading">
+    <div>
+      <h2>Your Journey Safety Command Center</h2>
+      <p>Real-time journey, Guardian monitoring, GPS and emergency status in one place.</p>
+    </div>
+    <span id="dashboardState" class="status-pill status-idle"><span class="status-dot"></span>Ready</span>
+  </div>
+  <div class="mobile-command-bar">
+    <span class="mobile-status"><i class="fa-solid fa-location-dot"></i> <strong data-gps-label>GPS permission needed</strong></span>
+    <span class="mobile-status"><i class="fa-solid fa-wifi"></i> <strong id="networkHealth">Checking</strong></span>
+    <span class="mobile-status"><i class="fa-solid fa-battery-three-quarters"></i> <strong id="batteryHealth">Checking</strong></span>
+    <button id="installAppBtn" class="install-btn hidden" type="button"><i class="fa-solid fa-download"></i> Install App</button>
+  </div>
+  <div class="dashboard-map-card">
+    <div class="map-heading"><div><span class="section-kicker">LIVE LOCATION</span><h3>Guardian Map</h3><p>Your location stays on this device unless you choose to share it.</p></div><button id="recenterMapBtn" class="map-btn" type="button"><i class="fa-solid fa-location-crosshairs"></i> Recenter</button></div>
+    <div id="liveMap" class="live-map" aria-label="Live GPS map"></div>
+  </div>
+  <div class="dashboard-grid">
+    <article class="dash-card dash-card-primary">
+      <div class="dash-card-top"><span class="dash-icon"><i class="fa-solid fa-route"></i></span><span id="journeyLiveBadge" class="mini-badge">No active journey</span></div>
+      <h3>Current Journey</h3>
+      <p id="dashDestination" class="dash-main">No journey started</p>
+      <p id="dashJourneyDetails" class="dash-journey-details">Journey details will appear here.</p>
+      <div class="dash-metrics">
+        <div><span>ETA</span><strong id="dashEta">--</strong></div>
+        <div><span>Distance</span><strong id="dashDistance">--</strong></div>
+        <div><span>Vehicle</span><strong id="dashVehicle">--</strong></div>
+      </div>
+      <div class="dash-actions">
+        <button class="primary-btn compact" onclick="openJourneyPanel()"><i class="fa-solid fa-play"></i> Start / View Journey</button>
+        <button id="completeJourneyBtn" class="ghost-btn" type="button"><i class="fa-solid fa-circle-check"></i> Complete</button>
+      </div>
+    </article>
+    <article class="dash-card">
+      <div class="dash-card-top"><span class="dash-icon"><i class="fa-solid fa-shield-heart"></i></span><span id="guardianBadge" class="mini-badge">Standby</span></div>
+      <h3>Guardian monitoring</h3>
+      <p id="guardianSummary">Starts automatically with a safe journey.</p>
+      <ul class="health-list">
+        <li><span><i class="fa-solid fa-location-crosshairs"></i> GPS</span><strong id="gpsHealth">Waiting</strong></li>
+        <li><span><i class="fa-solid fa-road"></i> Route status</span><strong id="routeHealth">Not monitoring</strong></li>
+        <li><span><i class="fa-solid fa-gauge-high"></i> Speed</span><strong id="speedHealth">--</strong></li>
+        <li><span><i class="fa-solid fa-crosshairs"></i> Accuracy</span><strong id="accuracyHealth">--</strong></li>
+        <li><span><i class="fa-solid fa-clock"></i> Last GPS update</span><strong id="lastGpsUpdate">--</strong></li>
+      </ul>
+    </article>
+    <article class="dash-card emergency-card">
+      <div class="dash-card-top"><span class="dash-icon"><i class="fa-solid fa-triangle-exclamation"></i></span><span class="mini-badge emergency">Emergency</span></div>
+      <h3>Quick Safety Actions</h3>
+      <p>Use these controls if you feel unsafe or need to share your current position.</p>
+      <div class="emergency-action-grid">
+        <button type="button" onclick="startSOS()"><i class="fa-solid fa-bell"></i><span>Activate SOS</span></button>
+        <button type="button" onclick="callEmergency()"><i class="fa-solid fa-phone"></i><span>Call 112</span></button>
+        <button type="button" onclick="shareLocation()"><i class="fa-solid fa-location-arrow"></i><span>Share Location</span></button>
+        <button id="shareSafetyBtn" type="button"><i class="fa-solid fa-share-nodes"></i><span>Safety Update</span></button>
+      </div>
+      <div class="incident-mini"><i class="fa-solid fa-timeline"></i> Local safety events logged: <strong id="incidentCount">0</strong></div>
+    </article>
+  </div>
+  <div class="safety-disclaimer"><i class="fa-solid fa-circle-info"></i><span>SafeHer AI is an assistance tool. In an immediate emergency, contact emergency services directly at 112.</span></div>
+</section>
+
+<!-- ================= Why Choose SafeHer AI ================= -->
+
+    <section id="features" class="features">
+
+    <div class="section-title">
+
+        <span>WHY CHOOSE SAFEHER AI</span>
+
+        <h2>Your Smart Safety Companion</h2>
+
+        <p>
+            Combining location-aware journey monitoring with practical safety guidance
+            to help people stay informed, prepared, and connected.
+        </p>
+
+    </div>
+
+    <div class="feature-container">
+<div class="feature-card">
+
+    <div class="feature-tag">
+        On-device screening
+    </div>
+
+    <div class="feature-icon">
+        <i class="fa-solid fa-brain"></i>
+    </div>
+
+    <h3>Situation Screening</h3>
+
+    <p>
+        Match selected safety-related phrases locally and receive practical guidance. This screening is not a trained AI model and cannot verify danger.
+    </p>
+
+</div>
+        
+<div class="feature-card">
+
+    <div class="feature-tag">
+        On-demand guidance
+    </div>
+
+    <div class="feature-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+    </div>
+
+    <h3>Safety Guidance</h3>
+
+    <p>
+        Get practical recommendations and emergency advice tailored
+        to different situations.
+    </p>
+
+</div>
+       
+<div class="feature-card">
+
+    <div class="feature-tag">
+        Emergency Ready
+    </div>
+
+    <div class="feature-icon">
+        <i class="fa-solid fa-location-dot"></i>
+    </div>
+
+    <h3>Emergency Support</h3>
+
+    <p>
+        Access emergency resources, safety contacts, and quick actions
+        whenever you need assistance.
+    </p>
+
+</div>
+    
+
+</section>
+<!-- ================= How It Works ================= -->
+
+<section id="workflow" class="workflow">
+
+    <div class="section-title">
+
+        <span>HOW SAFEHER AI WORKS</span>
+
+        <h2>Simple. Smart. Reliable.</h2>
+
+        <p>
+            SafeHer checks selected phrases on your device and provides general guidance. This is not a trained AI model or a reliable prediction of danger.
+        </p>
+
+    </div>
+
+    <div class="workflow-container">
+
+        <div class="workflow-step">
+
+            <div class="workflow-circle">
+                <span class="step-number">1</span>
+                <i class="fa-solid fa-keyboard"></i>
+            </div>
+
+            <h3>Describe Situation</h3>
+
+            <p>
+                Enter or speak your situation to SafeHer AI.
+            </p>
+
+        </div>
+
+        <div class="workflow-step">
+
+            <div class="workflow-circle">
+                <span class="step-number">2</span>
+
+                <i class="fa-solid fa-brain"></i>
+            </div>
+
+            <h3>Keyword Screening</h3>
+
+            <p>
+                The app checks for selected safety-related phrases. Results may be incomplete and are not a prediction of risk.
+            </p>
+
+        </div>
+
+        <div class="workflow-step">
+
+            <div class="workflow-circle">
+                <span class="step-number">3</span>
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <h3>Safety Guidance</h3>
+
+            <p>
+                Receive personalized recommendations and safety advice.
+            </p>
+
+        </div>
+ 
+       <div class="workflow-step">
+
+    <div class="workflow-circle">
+
+        <span class="step-number">4</span>
+
+        <i class="fa-solid fa-phone"></i>
+
+    </div>
+
+    <h3>Emergency Support</h3>
+
+    <p>
+        Quickly access emergency contacts and assistance whenever needed.
+    </p>
+
+</div>
+
+    </div>
+
+</section>
+<!-- ================= AI Safety Checker ================= -->
+    <section id="checker" class="ai-checker">
+
+    <div class="section-title">
+
+        <span>AI SAFETY CHECKER</span>
+
+        <h2>Analyze Your Situation</h2>
+
+        <p>
+            Describe your situation and let SafeHer AI provide an instant
+            safety assessment and personalized recommendations.
+        </p>
+
+    </div>
+
+    <div class="checker-container">
+
+        <div id="chatContainer" class="chat-container">
+
+    <div class="ai-message">
+
+        👋 Hello! I'm SafeHer AI.
+
+        Tell me what's happening and I'll help you assess the situation.
+
+    </div>
+
+</div>
+<p id="checkerAssistantStatus"></p>
+        <div class="input-area">
+
+    <textarea
+        id="userInput"
+        placeholder="Describe your situation..."
+        maxlength="2000"
+        aria-label="Describe your situation"
+    ></textarea>
+
+    <button id="voiceBtn">
+
+        <i class="fa-solid fa-microphone"></i>
+
+    </button>
+
+</div>
+
+        <label class="safety-helper" for="aiConsent">
+            <input type="checkbox" id="aiConsent">
+            I understand my description will be sent to the configured AI provider for analysis. I will avoid names, phone numbers, and exact addresses.
+        </label>
+
+        <button id="analyzeBtn" class="analyze-btn">
+
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+            Analyze Situation
+
+        </button>
+
+        <div id="resultCard" class="result-card">
+            <div id="loader" class="loader hidden">
+
+            <div class="spinner"></div>
+
+            <h3>Analyzing your situation...</h3>
+
+            <p>
+                The configured AI service is reviewing your description. If the service is unavailable, no assessment will be shown.
+            </p>
+
+        </div> 
+        <div class="history-card">
+
+    <h3>
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Recent Analyses
+    </h3>
+
+    <div id="historyList">
+
+        <p>No analyses yet.</p>
+
+    </div>
+
+</div>
+
+    <h3>Situation Screening Result</h3>
+
+    <div class="risk-box">
+
+        <span>Screening result (not a prediction)</span>
+
+        <h2 id="riskLevel">Waiting...</h2>
+
+        <!-- Add this line -->
+        <p id="riskScoreText">No screening performed yet.</p>
+
+    </div>
+
+    <div class="confidence">
+
+        <span>Method and limitations</span>
+
+        <p id="confidenceText">AI guidance can be incomplete. It cannot verify a real-world threat or guarantee safety.</p>
+
+    </div>
+            <div class="recommendations">
+
+                <h4>Recommended Actions</h4>
+
+                <ul id="recommendationList">
+
+                    <li>Enter a situation above.</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+    <section id="sos" class="sos-section">
+
+    <div class="section-title">
+
+        <span>EMERGENCY SOS</span>
+
+        <h2>Quick Emergency Actions</h2>
+
+        <p>
+            In an emergency, access important actions instantly.
+        </p>
+
+    </div>
+
+    <div class="sos-container">
+
+        <div class="sos-card">
+
+            <i class="fa-solid fa-phone-volume"></i>
+
+            <h3>Call Emergency</h3>
+
+            <p>Quickly contact emergency services.</p>
+
+            <button class="sos-btn" onclick="callEmergency()">
+                Call Now
+            </button>
+
+        </div>
+
+        <div class="sos-card">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+            <h3>Share Location</h3>
+
+            <p>Share your current location with trusted contacts.</p>
+
+            <button class="sos-btn" onclick="shareLocation()">
+                Share
+            </button>
+
+        </div>
+
+        <div class="sos-card">
+
+            <i class="fa-solid fa-user-shield"></i>
+
+            <h3>Trusted Contact</h3>
+
+            <p>Send an emergency alert to your trusted contact.</p>
+
+            <button class="sos-btn" onclick="sendEmergencySMS()">
+                Alert
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+    <section id="tips" class="tips-section">
+
+<div class="section-title">
+
+<h2>Daily Safety Tip</h2>
+
+</div>
+
+<div class="tip-card">
+
+<p id="dailyTip">
+
+Stay aware of your surroundings while travelling.
+
+</p>
+
+<button onclick="newTip()">
+
+Generate New Tip
+
+</button>
+
+</div>
+
+</section>
+<!-- ================= Local Usage Statistics ================= -->
+
+<section id="stats" class="stats-section">
+    <div class="section-title">
+        <span>YOUR SAFEHER ACTIVITY</span>
+        <h2>Your Local Activity</h2>
+        <p>Counts come from this browser only. They are not app-wide statistics or evidence of safety outcomes.</p>
+    </div>
+    <div class="stats-container">
+        <div class="stat-card">
+            <i class="fa-solid fa-route"></i>
+            <h2 id="completedJourneyCount">—</h2>
+            <p>Completed Journeys</p>
+        </div>
+        <div class="stat-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h2 id="incidentEventCount">—</h2>
+            <p>Recorded Safety Events</p>
+        </div>
+        <div class="stat-card">
+            <i class="fa-solid fa-users"></i>
+            <h2 id="trustedContactCount">—</h2>
+            <p>Trusted Contacts Saved</p>
+        </div>
+        <div class="stat-card">
+            <i class="fa-solid fa-message"></i>
+            <h2 id="situationScreeningCount">—</h2>
+            <p>Local Screenings</p>
+        </div>
+    </div>
+</section>
+<section id="resources" class="resources">
+
+    <div class="section-title">
+
+        <span>SAFETY RESOURCES</span>
+
+        <h2>Important Emergency Resources</h2>
+
+        <p>Quick access to emergency services and helpful information.</p>
+
+    </div>
+
+    <div class="resource-grid">
+
+        <div class="resource-card">
+
+            <i class="fa-solid fa-phone"></i>
+
+            <h3>Emergency</h3>
+
+            <p>112</p>
+
+        </div>
+
+        <div class="resource-card">
+
+            <i class="fa-solid fa-shield"></i>
+
+            <h3>Local Women’s Helpline</h3>
+
+            <p>Verify the current official number for your location.</p>
+
+        </div>
+
+        <div class="resource-card">
+
+            <i class="fa-solid fa-scale-balanced"></i>
+
+            <h3>Legal Help</h3>
+
+            <p>Know Your Rights</p>
+
+        </div>
+
+        <div class="resource-card">
+
+            <i class="fa-solid fa-hospital"></i>
+
+            <h3>Medical Help</h3>
+
+            <p>Nearest Hospital</p>
+
+        </div>
+
+    </div>
+
+</section>
+<button id="topBtn">
+
+    <i class="fa-solid fa-arrow-up"></i>
+
+</button>
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <h2>SafeHer AI</h2>
+
+        <p>
+
+            Journey monitoring, trusted-contact alerts and emergency access.
+
+        </p>
+
+        <div class="footer-links">
+
+            <a href="#">Home</a>
+
+            <a href="#features">Features</a>
+
+            <a href="#checker">AI Checker</a>
+
+            <a href="#sos">SOS</a>
+
+        </div>
+
+        <p class="copyright">
+
+            © 2026 SafeHer AI | Built for Lenovo LEAP AI Internship
+
+        </p>
+
+    </div>
+  <div id="gpsPermissionGate" class="gps-permission-gate" role="dialog" aria-modal="true" aria-labelledby="gpsGateTitle">
+  <div class="gps-gate-card">
+    <div class="gps-gate-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+    <span class="section-kicker">FIRST SAFETY STEP</span>
+    <h2 id="gpsGateTitle">Enable GPS protection</h2>
+    <p>SafeHer AI needs your location to monitor a journey, detect route deviation and prepare an emergency location message.</p>
+    <div class="gps-permission-points">
+      <span><i class="fa-solid fa-check"></i> High-accuracy GPS</span>
+      <span><i class="fa-solid fa-check"></i> Live journey monitoring</span>
+      <span><i class="fa-solid fa-check"></i> Emergency location sharing</span>
+    </div>
+    <button id="enableGpsBtn" class="primary-btn gps-enable-btn" type="button"><i class="fa-solid fa-location-dot"></i> Allow GPS & Continue</button>
+    <button id="gpsSettingsBtn" class="text-btn" type="button">Location was denied? Open instructions</button>
+    <p id="gpsPermissionStatus" class="gps-permission-status">Your browser will ask for permission.</p>
+    <small>Tip: On mobile, use the HTTPS deployed version of SafeHer AI for GPS access.</small>
+  </div>
+</div>
+
+<div id="safetyCheckPanel" class="safety-check-panel hidden" role="dialog" aria-modal="true" aria-live="assertive" aria-labelledby="safetyCheckTitle" aria-hidden="true">
+    <div class="safety-check-card">
+        <div class="safety-alert-icon"><i class="fa-solid fa-shield-heart"></i></div>
+        <span class="section-kicker">GUARDIAN CHECK-IN</span>
+        <h2 id="safetyCheckTitle">Are you safe?</h2>
+        <p id="safetyReason">I noticed something unusual during your journey.</p>
+        <div class="safety-reason-box">
+            <i class="fa-solid fa-eye"></i>
+            <span id="safetyReasonDetail">Guardian monitoring is checking your journey.</span>
+        </div>
+        <p class="safety-helper">If you are not safe, choose “No” and SafeHer AI will start the emergency response immediately.</p>
+        <p id="safetyCountdown" class="safety-helper" aria-live="polite">Please respond to this safety check.</p>
+        <div class="safety-check-actions">
+            <button class="safe-confirm" type="button" onclick="respondToSafety('yes')">
+                <span>Yes, I'm safe</span><small>Continue monitoring</small>
+            </button>
+            <button class="danger-confirm" type="button" onclick="respondToSafety('no')">
+                <span>No, I need help</span><small>Activate SOS now</small>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="journeyPanel" class="journey-panel hidden">
+
+<div class="journey-header-row"><div><span class="section-kicker">PROTECTED JOURNEY</span><h2>🛣 Start Safe Journey</h2></div><span class="status-pill"><span class="status-dot"></span><strong data-gps-label>GPS permission needed</strong></span></div>
+
+<p class="journey-form-intro">Enter the journey and transport details. Your starting point should be near your current GPS location so route monitoring can work correctly.</p>
+<label class="journey-field-label" for="profileName">Your full name</label>
+<input type="text" id="profileName" placeholder="Your full name" aria-label="Your full name" autocomplete="name" maxlength="120" required>
+<label class="journey-field-label" for="startPoint">Starting point</label>
+<input type="text" id="startPoint" placeholder="e.g. Railway Station, Bhilai" aria-label="Starting point" autocomplete="street-address" maxlength="250" required>
+<label class="journey-field-label" for="destination">Destination</label>
+<input type="text" id="destination" placeholder="Where do you want to go?" aria-label="Destination" maxlength="250" required>
+<label class="journey-field-label" for="driverName">Driver name</label>
+<input type="text" id="driverName" placeholder="Driver full name" aria-label="Driver name" maxlength="120" required>
+<label class="journey-field-label" for="driverPhone">Driver phone number</label>
+<input type="tel" id="driverPhone" placeholder="e.g. +919876543210" aria-label="Driver phone number" autocomplete="tel" maxlength="20" required>
+<label class="journey-field-label" for="vehicleType">Vehicle type</label>
+<select id="vehicleType" aria-label="Vehicle type" required>
+  <option value="">Select vehicle type</option>
+  <option value="Cab/Taxi">Cab / Taxi</option>
+  <option value="Auto-rickshaw">Auto-rickshaw</option>
+  <option value="Bus">Bus</option>
+  <option value="Train">Train</option>
+  <option value="Two-wheeler">Two-wheeler</option>
+  <option value="Private car">Private car</option>
+  <option value="Other">Other</option>
+</select>
+<label class="journey-field-label" for="vehicleNumber">Vehicle number</label>
+<input type="text" id="vehicleNumber" placeholder="Vehicle registration number" aria-label="Vehicle number" maxlength="40" required>
+<label class="journey-field-label" for="journeyMinutes">Estimated time to reach (minutes)</label>
+<input type="number" id="journeyMinutes" placeholder="e.g. 45" min="1" max="1440" aria-label="Estimated time to reach in minutes" required>
+<input type="hidden" id="route" value="">
+<label class="safety-helper" for="autoEscalateOnNoResponse">
+  <input type="checkbox" id="autoEscalateOnNoResponse">
+  If I don't respond to a Guardian check within 20 seconds, start the emergency alert workflow.
+</label>
+<p class="safety-helper">Optional. This may alert your saved contacts after a false alarm. Browser timers can be delayed when the app is suspended, and this cannot guarantee background monitoring.</p>
+
+<hr>
+
+<hr>
+<h3>Trusted contacts for <span id="contactOwnerLabel">your profile</span></h3>
+<p class="safety-helper">Contacts are saved in this browser and associated with your profile name. Use the full international phone format, for example +919876543210.</p>
+<label class="journey-field-label" for="contactName">Trusted contact name</label>
+<input type="text" id="contactName" placeholder="Family member or trusted friend" maxlength="120" autocomplete="off">
+<label class="journey-field-label" for="contactPhone">Trusted contact phone number</label>
+<input type="tel" id="contactPhone" placeholder="e.g. +919876543210" maxlength="20" autocomplete="tel">
+<button id="saveContactBtn" type="button">Save Trusted Contact</button>
+<div id="contactList" aria-live="polite"></div>
+
+<br>
+
+<button id="startJourneyBtn" type="button">Start Live GPS Journey</button>
+
+<section class="simulation-controls" aria-labelledby="simulationHeading">
+  <h3 id="simulationHeading">🧪 Run a Journey Simulation</h3>
+  <p class="safety-helper">Uses a real, dynamically calculated route between the entered locations, then animates a clearly labelled simulated vehicle on the map. It does not pretend to be real GPS tracking.</p>
+  <label class="journey-field-label" for="simulationDurationSeconds">Simulation travel duration (seconds)</label>
+  <input type="number" id="simulationDurationSeconds" min="15" max="600" value="60" required>
+  <label class="journey-field-label" for="simulationAnomalyPercent">When should the unusual event occur? (% of route)</label>
+  <input type="number" id="simulationAnomalyPercent" min="10" max="90" value="45" required>
+  <label class="safety-helper" for="simulationAllowRealSMS">
+    <input type="checkbox" id="simulationAllowRealSMS">
+    Send a REAL SMS through TextBee to the saved trusted contacts if I select “No”. Only enable this after confirming the backend is configured and the contacts consent. The message is labelled SIMULATION TEST — NOT A REAL EMERGENCY.
+  </label>
+  <button id="startJourneySimulationBtn" class="secondary-btn" type="button">▶ Simulate Journey + Safety Check</button>
+  <p id="simulationStatus" class="safety-helper" aria-live="polite">Simulation idle. A real SMS is sent only if you enable the opt-in and respond “No”; calls always require a deliberate tap.</p>
+</section>
+
+    <p id="journeyStatus"></p>
+
+<p id="journeyAssistantStatus">Safety assistant ready.</p>
+<button id="cancelJourneyBtn">Cancel</button>
+<button id="journeyEmergencyBtn" type="button">📞 Emergency</button>
+</div>
+
+
+
+</div>
+</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/contacts.js"></script>
+<script src="js/voice.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/journey.js"></script>
+<script src="js/guardian.js"></script>
+<script src="js/sos.js"></script>
+<script src="js/tips.js"></script>
+<script src="js/history.js"></script>
+<script src="js/statistics.js"></script>
+<script src="js/mobile.js"></script>
+<script src="js/script.js"></script>
+</body>
+
+</html>
